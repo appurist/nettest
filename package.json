@@ -1,0 +1,30 @@
+{
+  "name": "nettest",
+  "version": "0.1.10716",
+  "author": "Paul Whittemore <dev@authordesktop.com>",
+  "description": "A simple tool to run at both ends to verify end-to-end network messages over specific ports.",
+  "private": true,
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "node main.js",
+    "server": "node main.js --listen",
+    "client": "node main.js",
+    "build": "pkg main.js -t latest -o nettest",
+    "build:win": "pkg -t latest-win-x64 main.js -o dist/nettest.exe",
+    "build:linux": "pkg -t latest-linux-x64 main.js -o dist/nettest",
+    "build:mac": "pkg -t latest-macos-x64 main.js -o dist/nettest-macos"
+  },
+  "engines": {
+    "node": ">= 14.17"
+  },
+  "dependencies": {
+    "arg": "^5.0.0",
+    "chalk": "^4.1.1",
+    "dotenv-defaults": "^2.0.1"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.9"
+  }
+}
