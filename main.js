@@ -191,7 +191,7 @@ function doSends() {
       client.close();
       reportStats('Test complete: sent ');
     }
-  }, 1000);
+  }, interval*1000);
 }
 
 // Mainline
