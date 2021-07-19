@@ -181,7 +181,7 @@ function doSends() {
           console.log(chalk.red("Error on send:"), err);
         }
       } else {  // success
-        if (!quiet) {
+        if (verbose) {
           reportStats('Sent ');
         }
       }
