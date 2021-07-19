@@ -186,7 +186,7 @@ function doSends() {
         }
       }
     });
-    if (count >= repeats) {
+    if ((repeats > 0) && (count >= repeats)) {
       clearInterval(timer);
       client.close();
       reportStats('Test complete: sent ');
