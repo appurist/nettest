@@ -28,7 +28,7 @@ let commandLineOptions = {
   '--udp': String,      // use UDP protocol
   '--data': String,
   '--repeats': String,
-  '--interval':Number,
+  '--interval':String,
 
   '--quiet': Boolean,
   '--verbose': Boolean,
