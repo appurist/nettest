@@ -8,6 +8,7 @@ let port = 32123;
 let serverMode = false;
 let host;
 let repeats = -1;
+let interval = 1;
 let quiet = false;
 let verbose = false;
 let args;
@@ -27,6 +28,7 @@ let commandLineOptions = {
   '--udp': String,      // use UDP protocol
   '--data': String,
   '--repeats': String,
+  '--interval':Number,
 
   '--quiet': Boolean,
   '--verbose': Boolean,
@@ -41,6 +43,7 @@ let commandLineOptions = {
   '-u': '--udp',
   '-d': '--data',
   '-r': '--repeats',
+  '-i': '--interval',
 
   '-q': '--quiet',
   '-V': '--verbose',
@@ -58,6 +61,7 @@ setCommandLineHelp('--tcp',  'use TCP/IP as the network protocol');
 setCommandLineHelp('--udp',  'use UDP/IP as the network protocol');
 setCommandLineHelp('--data', 'override the data to send or expect in each message (any string)');
 setCommandLineHelp('--repeats',  'total number of messages to send or expect (default: unlimited)');
+setCommandLineHelp('--interval', 'seconds to wait between message sends (default: 1)');
 setCommandLineHelp('--quiet', 'enables quiet mode, showing less output that default');
 setCommandLineHelp('--verbose', 'enables verbose mode, showing more output that default');
 setCommandLineHelp('--version', 'displays the version number of this utility');
@@ -223,6 +227,14 @@ try {
     repeats = Number(args['--repeats']);
     if ((repeats === NaN) || (repeats < 1)) {
       console.log(chalk.red(`--repeats requires a positive count (number), received '${args['--repeats']} instead.`));
+      handleShutdown(1);
+    }
+  }
+
+  if (args['--interval']) {
+    interval = Number(args['--interval']);
+    if (port === NaN) {
+      console.log(chalk.red(`--interval requires a number (seconds), received '${args['--interval']} instead.`));
       handleShutdown(1);
     }
   }
