@@ -2,9 +2,10 @@ import chalk from 'chalk';
 import dgram from 'dgram';
 
 let count = 0;
+let bytes = 0;
 let errors = 0;
 function reportStats(prefix) {
-  console.log(prefix+`${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+  console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
 export function udpServer(options) {
@@ -20,8 +21,9 @@ export function udpServer(options) {
   server.on('message', (msg, rinfo) => {
     // console.log(`Received from ${rinfo.address}:${rinfo.port}, received: ${msg} `);
     count++;
+    bytes += msg.length;
     if (!quiet) {
-      console.log(`Received ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+      reportStats('Received ');
     }
     if ((repeats > 0) && (count >= repeats)) {
       reportStats('Test complete: received ');

@@ -2,9 +2,10 @@ import chalk from 'chalk';
 import net from 'net';
 
 let count = 0;
+let bytes = 0;
 let errors = 0;
 function reportStats(prefix) {
-  console.log(prefix+`${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+  console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
 export function tcpClient(options) {
@@ -35,6 +36,8 @@ export function tcpClient(options) {
       var data = Buffer.from(message);
       client.write(data, (err) => {
         count++;
+        bytes += data.length;
+        if (err) {
           errors++;
           if (!quiet) {
             console.log(chalk.red("Error on send:"), err);

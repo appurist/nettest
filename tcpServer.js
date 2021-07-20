@@ -2,24 +2,25 @@ import chalk from 'chalk';
 import net from 'net';
 
 let count = 0;
+let bytes = 0;
 let errors = 0;
 function reportStats(prefix) {
-  console.log(prefix+`${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+  console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
 export function tcpServer(options) {
-  const {host, port, repeats, interval, verbose, quiet} = options;
+  const {host, port, verbose, quiet} = options;
   const server = net.createServer((conn) => {
-    count=0; errors=0;  // reset stats
+    count=0; bytes=0; errors=0;  // reset stats
     console.log(`Incoming ${conn.remoteFamily} connection from ${conn.remoteAddress}:${conn.remotePort}...`);
     conn.on('data', (data) => {
-      // console.log(`Received: ${data}`);
+      bytes += data.length;
       if (verbose) {
         console.log(`Received: ${data.toString()}`);
       }
       count++;
       if (!quiet) {
-        console.log(`Received ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+        reportStats('Received ');
       }
     });
     conn.on('end', () => {

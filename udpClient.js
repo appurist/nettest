@@ -2,9 +2,10 @@ import chalk from 'chalk';
 import dgram from 'dgram';
 
 let count = 0;
+let bytes = 0;
 let errors = 0;
 function reportStats(prefix) {
-  console.log(prefix+`${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
+  console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
 export function udpClient(options) {
@@ -22,6 +23,7 @@ export function udpClient(options) {
     var data = Buffer.from(message);
     client.send(data, port, host, (error) => {
       count++;
+      bytes += data.length;
       if (error) {
         errors++;
         if (!quiet) {
