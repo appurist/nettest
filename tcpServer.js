@@ -14,13 +14,16 @@ export function tcpServer(options) {
     console.log(`Incoming ${conn.remoteFamily} connection from ${conn.remoteAddress}:${conn.remotePort}...`);
     conn.on('data', (data) => {
       // console.log(`Received: ${data}`);
+      if (verbose) {
+        console.log(`Received: ${data.toString()}`);
+      }
       count++;
       if (!quiet) {
         console.log(`Received ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
       }
     });
     conn.on('end', () => {
-      console.log("Connection closed.");
+      reportStats("Connection closed: received");
     })
   });
 

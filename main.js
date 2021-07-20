@@ -134,7 +134,7 @@ function reportStats(prefix) {
 // Mainline
 try {
   if (args['--version']) {
-    console.log(chalk.yellow("nettest")+chalk.magenta(VERSION))
+    console.log(chalk.yellow(`${cmd0} ${VERSION}`));
     handleShutdown(0);
   }
 
