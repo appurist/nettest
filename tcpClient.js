@@ -22,15 +22,19 @@ export function tcpClient(options) {
     console.log(chalk.green(`Connected to ${host}:${port}. Sending data.`));
     client.setEncoding('utf8');
     let timer = setInterval(() => {
-      if ((repeats > 0) && (++count > repeats)) {
+      let myNum = count+1;
+      if ((repeats > 0) && (myNum > repeats)) {
         clearInterval(timer);
-        client.end();
-        reportStats('Test complete: sent ');
+        client.end(() => {
+          reportStats('Test complete: sent ');
+          process.exit(0);
+        });
+        return;
       }
-      let message = `Message #${count}.`;
+      let message = `Message #${myNum}.`;
       var data = Buffer.from(message);
       client.write(data, (error) => {
-        if (error) {
+        count++;
           errors++;
           if (!quiet) {
             console.log(chalk.red("Error on send:"), err);
