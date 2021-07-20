@@ -33,7 +33,7 @@ export function tcpClient(options) {
       }
       let message = `Message #${myNum}.`;
       var data = Buffer.from(message);
-      client.write(data, (error) => {
+      client.write(data, (err) => {
         count++;
           errors++;
           if (!quiet) {
