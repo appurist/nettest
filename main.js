@@ -1,7 +1,11 @@
 #!/usr/bin/env node
-import dgram from 'dgram';
 import chalk from 'chalk';
 import arg from 'arg';
+
+import { udpServer } from './udpServer.js';
+import { udpClient } from './udpClient.js';
+import { tcpServer } from './tcpServer.js';
+import { tcpClient } from './tcpClient.js';
 
 const VERSION = '1.0.0';
 let port = 32123;
@@ -24,8 +28,8 @@ let commandLineOptions = {
   '--host': String,
   '--listen': Boolean,  // run in server mode?
   '--port': String,
-  '--tcp': String,      // use TCP protocol
-  '--udp': String,      // use UDP protocol
+  '--tcp': Boolean,     // use TCP protocol
+  '--udp': Boolean,     // use UDP protocol
   '--data': String,
   '--repeats': String,
   '--interval':String,
@@ -127,73 +131,6 @@ function reportStats(prefix) {
   console.log(prefix+`${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
-//////////////////////////////////////
-
-function doListen() {
-  const server = dgram.createSocket('udp4');
-
-  server.on('error', (err) => {
-    errors++;
-    console.log('Server error:', err);
-    reportStats('Error after ');
-  });
-
-  server.on('message', (msg, rinfo) => {
-    // console.log(`Received from ${rinfo.address}:${rinfo.port}, received: ${msg} `);
-    count++;
-    if (!quiet) {
-      console.log(`Received ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
-    }
-    if ((repeats > 0) && (count >= repeats)) {
-      reportStats('Test complete: received ');
-      server.close();
-    }
-  });
-
-  server.on('listening', () => {
-    const address = server.address();
-    console.log(`Listening on ${address.address}:${address.port}`);
-  });
-
-  server.bind(port, host);
-}
-
-////////////////////////////////////////////////////////
-
-
-function doSends() {
-  const client = dgram.createSocket('udp4');
-
-  if (verbose) {
-    client.on('message',function(msg,info){
-      console.log(`Received ${msg.length}-byte reply from ${info.address}:${info.port}: ${msg.toString()}`);
-    });
-  }
-
-  let timer = setInterval(() => {
-    let message = `Message #${count+1}.`;
-    var data = Buffer.from(message);
-    client.send(data, port, host, (error) => {
-      count++;
-      if (error) {
-        errors++;
-        if (!quiet) {
-          console.log(chalk.red("Error on send:"), err);
-        }
-      } else {  // success
-        if (verbose) {
-          reportStats('Sent ');
-        }
-      }
-    });
-    if ((repeats > 0) && (count >= repeats)) {
-      clearInterval(timer);
-      client.close();
-      reportStats('Test complete: sent ');
-    }
-  }, interval*1000);
-}
-
 // Mainline
 try {
   if (args['--version']) {
@@ -255,11 +192,19 @@ try {
   }
 
   if (!args['--port']) {
+    port = 32123;
     console.log(chalk.yellow(`No --port specified, assuming port ${port}.`));
   }
 
   // RUN SERVER LISTENER or CLIENT SENDER
-  serverMode ? doListen() : doSends();
+  let options = { host, port, repeats, interval, verbose, quiet };
+  if (args['--udp']) {
+    serverMode ? udpServer(options) : udpClient(options);
+  } else if (args['--tcp']) {
+    serverMode ? tcpServer(options) : tcpClient(options);
+  } else {
+    console.log(chalk.red('You must specify either --tcp or --udp for use.'));
+  }
 } catch (e) {
   console.error(e);
   handleShutdown(2);
