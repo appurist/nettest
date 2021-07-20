@@ -9,7 +9,7 @@ function reportStats(prefix) {
 }
 
 export function udpClient(options) {
-  const {host, port, repeats, interval, verbose, quiet} = options;
+  const {host, port, repeats, data, interval, verbose, quiet} = options;
   const client = dgram.createSocket('udp4');
 
   if (verbose) {
@@ -19,11 +19,11 @@ export function udpClient(options) {
   }
 
   let timer = setInterval(() => {
-    let message = `Message #${count+1}.`;
-    var data = Buffer.from(message);
-    client.send(data, port, host, (error) => {
+    let message = data || `Message #${count+1}.`;
+    let text = Buffer.from(message);
+    client.send(text, port, host, (error) => {
       count++;
-      bytes += data.length;
+      bytes += text.length;
       if (error) {
         errors++;
         if (!quiet) {

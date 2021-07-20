@@ -11,6 +11,7 @@ const VERSION = '1.0.0';
 let port = 32123;
 let serverMode = false;
 let host;
+let data;
 let repeats = -1;
 let interval = 1;
 let quiet = false;
@@ -176,6 +177,10 @@ try {
     }
   }
 
+  if (args['--data']) {
+    data = args['--data'];
+  }
+
   // order matters for these two
   if (args['--host']) {
     host = args['--host'];
@@ -197,7 +202,7 @@ try {
   }
 
   // RUN SERVER LISTENER or CLIENT SENDER
-  let options = { host, port, repeats, interval, verbose, quiet };
+  let options = { host, port, repeats, interval, data, verbose, quiet };
   if (args['--udp']) {
     serverMode ? udpServer(options) : udpClient(options);
   } else if (args['--tcp']) {

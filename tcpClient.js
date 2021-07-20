@@ -9,7 +9,7 @@ function reportStats(prefix) {
 }
 
 export function tcpClient(options) {
-  const {host, port, repeats, interval, verbose, quiet} = options;
+  const {host, port, repeats, interval, data, verbose, quiet} = options;
   const client = new net.Socket();
 
   console.log(`Connecting to ${host}:${port}...`);
@@ -32,11 +32,11 @@ export function tcpClient(options) {
         });
         return;
       }
-      let message = `Message #${myNum}.`;
-      var data = Buffer.from(message);
-      client.write(data, (err) => {
+      let message =  data || `Message #${myNum}.`;
+      var text = Buffer.from(message);
+      client.write(text, (err) => {
         count++;
-        bytes += data.length;
+        bytes += text.length;
         if (err) {
           errors++;
           if (!quiet) {
