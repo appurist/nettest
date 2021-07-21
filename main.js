@@ -53,7 +53,6 @@ let commandLineOptions = {
   '-q': '--quiet',
   '-V': '--verbose',
   '-v': '--version',
-  '-h': '--help',
   '-?': '--help'
 };
 
