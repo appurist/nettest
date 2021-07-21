@@ -17,7 +17,7 @@ Usage: nettest [options], where options can be:
   --version (displays the version number of this utility)
   --help (shows this command-line syntax help)
 These options also have these short-form aliases:
-  -h: --help
+  -h: --host
   -l: --listen
   -p: --port
   -t: --tcp
