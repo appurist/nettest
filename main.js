@@ -7,7 +7,7 @@ const { udpClient } = require('./udpClient.js');
 const { tcpServer } = require('./tcpServer.js');
 const { tcpClient } = require('./tcpClient.js');
 
-const VERSION = '1.0.10720';
+let VERSION;
 let port = 32123;
 let serverMode = false;
 let host;
@@ -133,6 +133,9 @@ function reportStats(prefix) {
 
 // Mainline
 try {
+  const package = require('./package.json');
+  VERSION = package.version || 'unknown';
+
   if (args['--version']) {
     console.log(chalk.yellow(`${cmd0} ${VERSION}`));
     handleShutdown(0);
