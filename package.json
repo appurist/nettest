@@ -10,7 +10,7 @@
     "dev": "node main.js",
     "server": "node main.js --listen",
     "client": "node main.js",
-    "build": "pkg main.js -t latest -o nettest",
+    "build": "pkg main.js -t latest -o dist/nettest",
     "build:win": "pkg -t latest-win-x64 main.js -o dist/nettest.exe",
     "build:linux": "pkg -t latest-linux-x64 main.js -o dist/nettest",
     "build:mac": "pkg -t latest-macos-x64 main.js -o dist/nettest-macos"
