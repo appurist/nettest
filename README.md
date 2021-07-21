@@ -24,7 +24,7 @@ These options also have these short-form aliases:
   -u: --udp
   -d: --data
   -r: --repeats
-  <!-- -i: --interval -->
+  -i: --interval
   -q: --quiet
   -V: --verbose
   -v: --version
