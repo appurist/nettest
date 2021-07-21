@@ -1,6 +1,6 @@
 {
   "name": "nettest",
-  "version": "0.1.10716",
+  "version": "1.0.10720",
   "author": "Paul Whittemore <dev@authordesktop.com>",
   "description": "A simple tool to run at both ends to verify end-to-end network messages over specific ports.",
   "private": true,
