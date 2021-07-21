@@ -5,7 +5,6 @@
   "description": "A simple tool to run at both ends to verify end-to-end network messages over specific ports.",
   "private": true,
   "main": "main.js",
-  "type": "module",
   "scripts": {
     "start": "node main.js",
     "dev": "node main.js",

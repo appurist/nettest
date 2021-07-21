@@ -1,5 +1,5 @@
-import chalk from 'chalk';
-import dgram from 'dgram';
+const chalk = require('chalk');
+const dgram = require('dgram');
 
 let count = 0;
 let bytes = 0;
@@ -8,7 +8,7 @@ function reportStats(prefix) {
   console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
-export function udpClient(options) {
+function udpClient(options) {
   const {host, port, repeats, data, interval, verbose, quiet} = options;
   const client = dgram.createSocket('udp4');
 
@@ -42,3 +42,5 @@ export function udpClient(options) {
     }
   }, interval*1000);
 }
+
+module.exports = { udpClient };

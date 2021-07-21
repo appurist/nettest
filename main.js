@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-import chalk from 'chalk';
-import arg from 'arg';
+const chalk = require('chalk');
+const arg = require('arg');
 
-import { udpServer } from './udpServer.js';
-import { udpClient } from './udpClient.js';
-import { tcpServer } from './tcpServer.js';
-import { tcpClient } from './tcpClient.js';
+const { udpServer } = require('./udpServer.js');
+const { udpClient } = require('./udpClient.js');
+const { tcpServer } = require('./tcpServer.js');
+const { tcpClient } = require('./tcpClient.js');
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.10720';
 let port = 32123;
 let serverMode = false;
 let host;

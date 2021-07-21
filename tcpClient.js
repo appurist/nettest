@@ -1,5 +1,5 @@
-import chalk from 'chalk';
-import net from 'net';
+const chalk = require('chalk');
+const net = require('net');
 
 let count = 0;
 let bytes = 0;
@@ -8,7 +8,7 @@ function reportStats(prefix) {
   console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
-export function tcpClient(options) {
+function tcpClient(options) {
   const {host, port, repeats, interval, data, verbose, quiet} = options;
   const client = new net.Socket();
 
@@ -51,3 +51,5 @@ export function tcpClient(options) {
     }, interval*1000);
   });
 }
+
+module.exports = { tcpClient };

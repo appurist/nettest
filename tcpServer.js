@@ -1,5 +1,6 @@
-import chalk from 'chalk';
-import net from 'net';
+const chalk = require('chalk');
+const net = require('net');
+
 
 let count = 0;
 let bytes = 0;
@@ -8,7 +9,7 @@ function reportStats(prefix) {
   console.log(prefix+`${chalk.blueBright(''+bytes)} bytes, in ${chalk.green(''+count)} messages, ${chalk.red(errors)} errors.`);
 }
 
-export function tcpServer(options) {
+function tcpServer(options) {
   const {host, port, verbose, quiet} = options;
   const server = net.createServer((conn) => {
     count=0; bytes=0; errors=0;  // reset stats
@@ -41,3 +42,5 @@ export function tcpServer(options) {
   server.listen(port, host);
 }
 
+
+module.exports = { tcpServer };
